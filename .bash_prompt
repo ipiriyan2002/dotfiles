@@ -1,0 +1,61 @@
+# Reset color
+COLOR_RESET="\[\e[0m\]"
+
+# Standard Colors
+COLOR_BLACK="\[\e[30m\]"
+COLOR_RED="\[\e[31m\]"
+COLOR_GREEN="\[\e[32m\]"
+COLOR_YELLOW="\[\e[33m\]"
+COLOR_BLUE="\[\e[34m\]"
+COLOR_MAGENTA="\[\e[35m\]"
+COLOR_CYAN="\[\e[36m\]"
+COLOR_WHITE="\[\e[37m\]"
+
+# Background Colors
+BG_BLACK="\[\e[40m\]"
+BG_RED="\[\e[41m\]"
+BG_GREEN="\[\e[42m\]"
+BG_YELLOW="\[\e[43m\]"
+BG_BLUE="\[\e[44m\]"
+BG_MAGENTA="\[\e[45m\]"
+BG_CYAN="\[\e[46m\]"
+BG_WHITE="\[\e[47m\]"
+
+
+if [ -f /usr/share/git/completion/git-prompt.sh ]; then
+    . /usr/share/git/completion/git-prompt.sh
+    # Show more info about repo state:
+    export GIT_PS1_SHOWDIRTYSTATE=1
+    export GIT_PS1_SHOWSTASHSTATE=1
+    export GIT_PS1_SHOWUNTRACKEDFILES=1
+    export GIT_PS1_SHOWUPSTREAM="auto"
+fi
+
+function _update_ps1() {
+  local chroot="${debian_chroot:+($debian_chroot)}"
+
+
+  local conda_env=""
+  if [ -n "$CONDA_DEFAULT_ENV" ]; then
+    conda_env="$COLOR_RED${CONDA_DEFAULT_ENV}"
+  fi
+
+  local git_part=""
+  if [ "$(type -t __git_ps1)" = "function" ]; then
+      # %s in the format string is replaced by the branch name
+      git_part="$(__git_ps1 "${COLOR_MAGENTA}%s${COLOR_RESET}")"
+  fi
+
+  PS1="${chroot}\n$COLOR_RESET"
+  PS1+="┌──($COLOR_BLUE\u$COLOR_CYAN@\h$COLOR_RESET)"
+  PS1+="-[$COLOR_GREEN\w$COLOR_RESET]--<${conda_env}$COLOR_RESET>"
+  if [ -n "${git_part}" ]; then
+  	PS1+="--<${git_part}$COLOR_RESET>"
+  fi
+  PS1+="\n└─<\t$COLOR_RESET> "
+}
+
+
+
+PROMPT_COMMAND=_update_ps1
+export PS1
