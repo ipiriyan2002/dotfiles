@@ -69,7 +69,7 @@ alias tenv='conda activate tmux-env'
 # Watch nvidia
 
 alias nvidia='watch nvidia-smi'
-
+alias gstat = "gpustat -cp --watch"
 
 # Request a gpu session
 alias igpulow='srun --partition=gpu --gpus=1 --mem=8G --cpus-per-task=4 --pty bash'
