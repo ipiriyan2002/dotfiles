@@ -42,7 +42,7 @@ shopt -s histappend histverify
 
 alias c='clear'
 alias rel='source ~/.bashrc'
-alias topu='top | grep ikarunak'
+alias topu='top | grep $USER'
 
 alias ..='cd ..'
 alias ...='cd ../..'
@@ -88,5 +88,5 @@ alias jlab='jupyter-lab --no-browser --ip 0.0.0.0 --port 8080'
 
 # Schedule commands
 
-alias myjobs='squeue -u ikarunak'
+alias myjobs='squeue -u $USER'
 alias jobstats='sacct --format="JobID,JobName,Partition,Elapsed,TotalCPU,ReqCPUS,ReqMem,MaxRSS,AveRSS,State"'
